@@ -1,3 +1,4 @@
+import { env } from '@/env'
 import { fastifyCors } from '@fastify/cors'
 import { fastify } from 'fastify'
 
