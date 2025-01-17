@@ -25,6 +25,7 @@
     "@fastify/swagger": "^9.4.1",
     "@fastify/swagger-ui": "^5.2.1",
     "biome": "^0.3.3",
+    "csv-stringify": "^6.5.2",
     "dayjs": "^1.11.13",
     "fastify": "^5.2.1",
     "fastify-type-provider-zod": "^4.0.2",
