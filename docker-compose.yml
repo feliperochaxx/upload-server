@@ -1,7 +1,6 @@
 services:
   pg:
-    # pull access denied for bitnami/postgresql
-    image: postgres:latest
+    image: bitnami/postgresql
     ports:
       - '5432:5432'
     environment:
