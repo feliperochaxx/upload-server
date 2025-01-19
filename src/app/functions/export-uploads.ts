@@ -76,7 +76,5 @@ export async function exportUploads(
 
   const [{ url }] = await Promise.all([uploadToStorage, convertToCSVPipeline])
 
-  await convertToCSVPipeline
-
   return makeRight({ reportUrl: url })
 }
