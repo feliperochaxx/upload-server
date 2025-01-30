@@ -21,6 +21,16 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ vars.AWS_REGION }}
 
-      - name: Login to AWS ECT
+      - name: Login to AWS ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2.0.1
+
+      - name: Build and push the image to AWS ECT
+        id: build-push-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+          IMAGE_TAG: v3
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:v3 .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:v3
