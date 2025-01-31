@@ -13,6 +13,16 @@ jobs:
         id: checkout
         uses: actions/checkout@v4
 
+      - name: Configure node
+        id: node
+        uses: actions/setup-node@v4.2.0
+        with:
+          node-version: 22.13.0
+
+      - name: Install dependencies
+        id: install-dependencies
+        run: npm install
+
       - name: Configure AWS Credentials
         id: aws-credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -30,6 +40,25 @@ jobs:
         run: |
           SHA=$(echo $GITHUB_SHA | head -c7)
           echo "sha=$SHA" >> $GITHUB_OUTPUT
+
+      - name: Build image to scan
+        id: build-scan-image
+        uses: docker/build-push-action@v6.13.0
+        with:
+          context: .
+          load: true
+          tags: |
+            ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:scan
+
+      - name: Aqua Security Trivy
+        id: run-trivy-scan
+        uses: aquasecurity/trivy-action@0.29.0
+        with:
+          image-ref: '${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:scan'
+          format: 'table'
+          ingore-unfixed: true
+          vuln-type: 'os,library'
+          severity: 'CRITICAL,HIGH,MEDIUM,LOW'
 
       - name: Build and push the image to AWS ECR
         id: build-push-image
