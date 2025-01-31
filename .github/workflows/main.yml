@@ -56,7 +56,7 @@ jobs:
         with:
           image-ref: '${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:scan'
           format: 'table'
-          ingore-unfixed: true
+          ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH,MEDIUM,LOW'
 
