@@ -47,7 +47,7 @@ jobs:
 
       - name: Build image to scan
         id: build-scan-image
-        uses: docker/build-push-action@v6.13.0
+        uses: docker/build-push-action@v6
         with:
           context: .
           load: true
@@ -68,7 +68,7 @@ jobs:
 
       - name: Build and push the image to AWS ECR
         id: build-push-image
-        uses: docker/build-push-action@v6.13.0
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
