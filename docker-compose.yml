@@ -1,6 +1,6 @@
 services:
-  pg:
-    image: bitnami/postgresql
+  pg: # generic name for the service
+    image: bitnami/postgresql # by default looks for the image in the docker hub
     ports:
       - '5432:5432'
     environment:
@@ -9,3 +9,16 @@ services:
       - POSTGRES_DB=upload
     volumes:
       - './docker:/docker-entrypoint-initdb.d'
+
+  widget-server:
+    build: . # By default look to the Dockerfile
+    container_name: widget-server
+    ports:
+      - '3000:3333'
+    environment:
+      - CLOUDFARE_ACCOUNT_ID=#
+      - CLOUDFARE_ACCESS_KEY_ID=#
+      - CLOUDFARE_SECRET_ACCESS_KEY=#
+      - CLOUDFARE_BUCKET=#
+      - CLOUDFARE_PUBLIC_URL=http://localhost:5432
+      - DATABASE_URL=postgresql://pg:5432/upload
