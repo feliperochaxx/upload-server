@@ -9,6 +9,7 @@ services:
       - POSTGRES_DB=upload
     volumes:
       - './docker:/docker-entrypoint-initdb.d'
+      - 'db:/var/lib/postgresql/data'
 
   widget-server:
     build: . # By default look to the Dockerfile
@@ -22,3 +23,6 @@ services:
       - CLOUDFARE_BUCKET=#
       - CLOUDFARE_PUBLIC_URL=http://localhost:5432
       - DATABASE_URL=postgresql://pg:5432/upload
+
+volumes:
+  db:
