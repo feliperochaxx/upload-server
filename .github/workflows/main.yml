@@ -76,3 +76,6 @@ jobs:
           platforms: linux/amd64
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ steps.generate-tag.outputs.sha }}
+
+      - name: Inspect Image
+        run: docker buildx imagetools inspect ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ steps.generate-tag.outputs.sha }}
