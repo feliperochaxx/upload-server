@@ -80,5 +80,16 @@ jobs:
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ steps.generate-tag.outputs.sha }}
 
+      - name: Deploy to App Runner
+        id: deploy-to-app-runner
+        uses: aws-actions/aws-app-runner-deploy@v1
+        with:
+          service: widget-service
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ steps.generate-tag.outputs.sha }}
+          region: ${{ vars.AWS_REGION }}
+          cpu: 1
+          memory: 2
+          port: 3333
+
       - name: Inspect Image
         run: docker buildx imagetools inspect ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ steps.generate-tag.outputs.sha }}
