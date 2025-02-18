@@ -1,10 +1,16 @@
-# name: widget-server pipe DockerHub
+name: widget-server pipe DockerHub
 
-# on:
-#   push:
-#     branches:
-#       - master
+on:
+  push:
+    branches:
+      - master
 
+jobs:
+  example:
+    runs-on: ubuntu-latest
+    steps:
+      - name: logi
+        run: echo "Hello, ${{ github.actor }}"
 # jobs:
 #   build:
 #     runs-on: ubuntu-latest
