@@ -80,8 +80,8 @@ jobs:
           tags: |
             ${{ steps.login-ecr.outputs.registry }}/${{ vars.ECR_REPOSITORY }}:${{ steps.generate-tag.outputs.sha }}
 
-      - name: Deploy to App Runner
-        id: deploy-to-app-runner
+      - name: Deploy to App Runner Image
+        id: deploy-apprunner
         uses: awslabs/amazon-app-runner-deploy@main
         with:
           service: widget-service
