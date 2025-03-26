@@ -14,7 +14,25 @@ import { healthCheckRoute } from './routes/health-check'
 import { uploadImageRoute } from './routes/upload-image'
 import { transformSwaggerSchema } from './transform-swagger-schema'
 
-const server = fastify()
+const server = fastify({
+  logger: {
+    transport: {
+      targets: [
+        {
+          target: 'pino-pretty',
+          level: 'error',
+          options: {
+            name: 'dev-terminal',
+            colorize: true,
+            levelFirst: true,
+            include: 'level,time',
+            translateTime: 'yyyy-mm-dd HH:MM:ss Z',
+          },
+        },
+      ],
+    },
+  },
+})
 
 server.setValidatorCompiler(validatorCompiler)
 server.setSerializerCompiler(serializerCompiler)
@@ -60,5 +78,5 @@ server.register(exportUploadsRoute)
 server.register(healthCheckRoute)
 
 server.listen({ port: 3333, host: '0.0.0.0' }).then(() => {
-  console.log('Server is running on port 3333')
+  server.log.info('Server is running on port 3333')
 })
