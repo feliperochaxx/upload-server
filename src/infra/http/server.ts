@@ -16,21 +16,23 @@ import { transformSwaggerSchema } from './transform-swagger-schema'
 
 const server = fastify({
   logger: {
-    transport: {
-      targets: [
-        {
-          target: 'pino-pretty',
-          level: 'error',
-          options: {
-            name: 'dev-terminal',
-            colorize: true,
-            levelFirst: true,
-            include: 'level,time',
-            translateTime: 'yyyy-mm-dd HH:MM:ss Z',
+    ...(process.env.NODE_ENV === 'development' && {
+      transport: {
+        targets: [
+          {
+            target: 'pino-pretty',
+            level: 'error',
+            options: {
+              name: 'dev-terminal',
+              colorize: true,
+              levelFirst: true,
+              include: 'level,time',
+              translateTime: 'yyyy-mm-dd HH:MM:ss Z',
+            },
           },
-        },
-      ],
-    },
+        ],
+      },
+    }),
   },
 })
 
